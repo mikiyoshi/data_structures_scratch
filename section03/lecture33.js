@@ -1,0 +1,107 @@
+// BST Binary Search Tree
+
+function BST(value) {
+  this.value = value;
+  this.left = null;
+  this.right = null;
+}
+
+BST.prototype.insert = function (value) {
+  if (value <= this.value) {
+    if (!this.left) this.left = new BST(value);
+    else this.left.insert(value);
+  } else if (value > this.value) {
+    if (!this.right) this.right = new BST(value);
+    else this.right.insert(value);
+  }
+};
+
+BST.prototype.contains = function (value) {
+  if (value === this.value) return true;
+  else if (value < this.value) {
+    if (!this.left) return false;
+    // .contains(value) は value が含まれていれば true, なければ false
+    else return this.left.contains(value);
+  } else if (value > this.value) {
+    if (!this.right) return false;
+    else return this.right.contains(value);
+  }
+};
+
+BST.prototype.depthFirstTraversal = function (iteratorFunc, order) {
+  if (order === 'pre-order') iteratorFunc(this.value);
+  // iteratorFunc(this.left.value);
+  // if (this.left) this.left.depthFirstTraversal(iteratorFunc);
+  if (this.left) this.left.depthFirstTraversal(iteratorFunc, order);
+  // iteratorFunc(this.value);
+  if (order === 'in-order') iteratorFunc(this.value);
+  // iteratorFunc(this.right.value);
+  // if (this.right) this.right.depthFirstTraversal(iteratorFunc);
+  if (this.right) this.right.depthFirstTraversal(iteratorFunc, order);
+  if (order === 'post-order') iteratorFunc(this.value);
+};
+
+BST.prototype.breadthFirstTraversal = function (iteratorFunc) {
+  var queue = [];
+};
+
+var bst = new BST(50);
+
+bst.insert(30);
+bst.insert(70);
+bst.insert(100);
+bst.insert(60);
+bst.insert(59);
+bst.insert(20);
+bst.insert(45);
+bst.insert(35);
+bst.insert(85);
+bst.insert(105);
+bst.insert(10);
+
+bst.depthFirstTraversal(log, 'post-order');
+
+function log(value) {
+  console.log('value: ', value);
+}
+// post-order
+// value:  10
+// value:  20
+// value:  35
+// value:  45
+// value:  30
+// value:  59
+// value:  60
+// value:  85
+// value:  105
+// value:  100
+// value:  70
+// value:  50
+
+// pre-order
+// value:  50
+// value:  30
+// value:  20
+// value:  10
+// value:  45
+// value:  35
+// value:  70
+// value:  60
+// value:  59
+// value:  100
+// value:  85
+// value:  105
+
+// in-order
+// value:  10
+// value:  20
+// value:  30
+// value:  35
+// value:  45
+// value:  50
+// value:  59
+// value:  60
+// value:  70
+// value:  85
+// value:  100
+// value:  105
